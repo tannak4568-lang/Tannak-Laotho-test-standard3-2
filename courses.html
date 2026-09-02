@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lannapoly - ข้อมูลสาขาวิชาที่เปิดสอน</title>
+    <link rel="icon" type="image/png" href="asset/img/logo.png">
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* ส่วนหัว (Header) - รูปแบบเดียวกับ staff.html */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 1.8rem 1rem 0.8rem 1rem;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* แถบเมนูนำทาง (Navbar) */
+        nav {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.9rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        nav a.active {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        /* ส่วนเนื้อหาหลัก (Main Body) */
+        main {
+            flex: 1;
+            padding: 2.5rem 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* สไตล์ปุ่ม Tab */
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            background-color: #e2e8f0;
+            color: #475569;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: 'Prompt', sans-serif;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #cbd5e1;
+        }
+
+        .tab-btn.active {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
+        }
+
+        /* กล่องเนื้อหา Tab */
+        .tab-content {
+            display: none;
+            background-color: #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Banner หัวข้อของ Tab (อ้างอิงตามภาพตัวอย่าง) */
+        .banner-header {
+            background-color: #bfe3eb;
+            color: #0f5257;
+            padding: 18px 24px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* Grid รายการสาขาวิชา (แบ่ง 2 คอลัมน์) */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px 30px;
+            padding: 28px 24px;
+        }
+
+        @media (max-width: 640px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .course-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-title {
+            color: #1e293b;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 2px 0;
+        }
+
+        .course-sub {
+            color: #64748b;
+            font-size: 0.88rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* ส่วนท้าย (Footer) */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>ระบบข้อมูลสถานศึกษา</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="executives.html">ข้อมูลผู้บริหาร</a></li>
+                <li><a href="staff.html">ข้อมูลบุคลากร</a></li>
+                <li><a href="student.html">ข้อมูลนักเรียน นักศึกษา</a></li>
+                <li><a href="courses.html" class="active">ข้อมูลสาขาวิชาที่เปิดสอน</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ปุ่มสลับ Tab ปวช. / ปวส. -->
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="openTab(event, 'pvc')">ระดับ ปวช.</button>
+            <button class="tab-btn" onclick="openTab(event, 'pvs')">ระดับ ปวส.</button>
+        </div>
+
+        <!-- เนื้อหา Tab 1: ปวช. -->
+        <div id="pvc" class="tab-content active">
+            <div class="banner-header">
+                สาขาที่เปิดสอน ปวช. / เอกสารการสมัคร
+            </div>
+            <div class="course-grid">
+                <div class="course-item">
+                    <div class="course-title">สาขางานยานยนต์</div>
+                    <div class="course-sub">(Auto Mechanical Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขายานยนต์ไฟฟ้า</div>
+                    <div class="course-sub">(Electric Vehicle)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาช่างไฟฟ้ากำลัง</div>
+                    <div class="course-sub">(Electrical Power Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาช่างก่อสร้าง</div>
+                    <div class="course-sub">(Construction Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาสถาปัตยกรรม</div>
+                    <div class="course-sub">(Architectural Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาเทคโนโลยีสารสนเทศ</div>
+                    <div class="course-sub">(Information Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการบัญชี</div>
+                    <div class="course-sub">(Accounting)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการตลาด</div>
+                    <div class="course-sub">(Marketing)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาธุรกิจดิจิทัล</div>
+                    <div class="course-sub">(Digital Business Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการท่องเที่ยว</div>
+                    <div class="course-sub">(Tourism)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการโรงแรม</div>
+                    <div class="course-sub">(Hotel Management)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- เนื้อหา Tab 2: ปวส. -->
+        <div id="pvs" class="tab-content">
+            <div class="banner-header">
+                สาขาที่เปิดสอน ปวส. / เอกสารการสมัคร
+            </div>
+            <div class="course-grid">
+                <div class="course-item">
+                    <div class="course-title">สาขางานยานยนต์</div>
+                    <div class="course-sub">(Auto Mechanical Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขายานยนต์ไฟฟ้า</div>
+                    <div class="course-sub">(Electric Vehicle)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาช่างไฟฟ้ากำลัง</div>
+                    <div class="course-sub">(Electrical Power Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาช่างก่อสร้าง</div>
+                    <div class="course-sub">(Construction Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาสถาปัตยกรรม</div>
+                    <div class="course-sub">(Architectural Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาเทคโนโลยีสารสนเทศ</div>
+                    <div class="course-sub">(Information Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการบัญชี</div>
+                    <div class="course-sub">(Accounting)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการตลาด</div>
+                    <div class="course-sub">(Marketing)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาธุรกิจดิจิทัล</div>
+                    <div class="course-sub">(Digital Business Technology)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการท่องเที่ยว</div>
+                    <div class="course-sub">(Tourism)</div>
+                </div>
+                <div class="course-item">
+                    <div class="course-title">สาขาการโรงแรม</div>
+                    <div class="course-sub">(Hotel Management)</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Lannapoly. All rights Reserved.</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabId) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            const tabBtns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].classList.remove("active");
+            }
+
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

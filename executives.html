@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lannapoly - ระบบข้อมูลสถานศึกษา</title>
+    <link rel="icon" type="image/png" href="asset/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* ส่วนหัว (Header) */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* แถบเมนูนำทาง (Navbar) */
+        nav {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.9rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        nav a.active {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        /* ส่วนเนื้อหาหลัก (Main) */
+        main {
+            flex: 1;
+            padding: 2.5rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* หัวข้อส่วน */
+        .section-title {
+            text-align: center;
+            color: #0284c7;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: #0284c7;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        /* เลย์เอาต์ Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card-grid-center {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        /* ตัวการ์ด (Card Style) */
+        .card {
+            position: relative;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ภาพพื้นหลังด้านบนของการ์ด */
+        .card-banner {
+            height: 120px;
+            background: linear-gradient(to right, #3b82f6, #1d4ed8), url('https://via.placeholder.com/400x150');
+            background-blend-mode: overlay;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ส่วนพื้นที่ใส่ชื่อและตำแหน่ง */
+        .card-body {
+            padding: 20px 145px 20px 20px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* รูปโปรไฟล์แบบลอยเกย */
+        .profile-img {
+            position: absolute;
+            right: 18px;
+            top: 45px;
+            width: 110px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            background-color: #e2e8f0;
+        }
+
+        .person-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        /* ป้ายกำกับตำแหน่ง (Badge) */
+        .person-role {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #0369a1;
+            background-color: #e0f2fe;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+        }
+
+        /* ส่วนท้าย (Footer) */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>ระบบข้อมูลสถานศึกษา</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="executives.html" class="active">ข้อมูลผู้บริหาร</a></li>
+                <li><a href="staff.html">ข้อมูลบุคลากร</a></li>
+                <li><a href="student.html">ข้อมูลนักเรียน นักศึกษา</a></li>
+                <li><a href="courses.html">ข้อมูลสาขาวิชาที่เปิดสอน</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="section-title">ผู้ทรงคุณวุฒิ</div>
+        <div class="card-grid">
+            
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/1-B0aDhrdA.gif" alt="นายจีระพันธ์ กิตติบุตร">
+                <div class="card-body">
+                    <div class="person-name">นายจีระพันธ์ กิตติบุตร</div>
+                    <div class="person-role">👤 ผู้ทรงคุณวุฒิ</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/1_2-Da58X3DG.gif" alt="นายวิทยา ใจวิถี">
+                <div class="card-body">
+                    <div class="person-name">นายวิทยา ใจวิถี</div>
+                    <div class="person-role">👤 ผู้ทรงคุณวุฒิ</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/1_6-BLEz5SgE.gif" alt="รศ.ดร.จารุณี ทิพยมณฑล">
+                <div class="card-body">
+                    <div class="person-name">รศ.ดร.จารุณี ทิพยมณฑล</div>
+                    <div class="person-role">👤 ผู้ทรงคุณวุฒิ</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">ผู้รับใบอนุญาต / ผู้จัดการ</div>
+        <div class="card-grid-center">
+            
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/00103.jpg" alt="นายสมฤทธิ์ ทิพยมณฑล">
+                <div class="card-body">
+                    <div class="person-name">นายสมฤทธิ์ ทิพยมณฑล</div>
+                    <div class="person-role">👤 ผู้รับใบอนุญาต / ผู้จัดการ</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="section-title">ผู้อำนวยการ / ผู้แทนครู</div>
+        <div class="card-grid">
+            
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/00111.jpg" alt="นายจีระพันธ์ กิตติบุตร">
+                <div class="card-body">
+                    <div class="person-name">นายฉลวย พันธ์ทอง</div>
+                    <div class="person-role">👤 ผู้อำนวยการ</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/00107.jpg" alt="นายวิทยา ใจวิถี">
+                <div class="card-body">
+                    <div class="person-name">นายศิรภพ เจริญกุศล</div>
+                    <div class="person-role">👤 ผู้แทนครู</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <img class="profile-img" src="asset/img/00301.jpg" alt="รศ.ดร.จารุณี ทิพยมณฑล">
+                <div class="card-body">
+                    <div class="person-name">นางวิมพ์ภากุล เตรียมสันติภาพ</div>
+                    <div class="person-role">👤 ผู้แทนครู</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Lannapoly. All rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

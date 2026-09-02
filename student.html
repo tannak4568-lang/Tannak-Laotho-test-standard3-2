@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lannapoly - ข้อมูลนักเรียน นักศึกษา</title>
+    <link rel="icon" type="image/png" href="asset/img/logo.png">
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* ส่วนหัว (Header) - ปรับตาม staff.html */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 1.8rem 1rem 0.8rem 1rem;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* แถบเมนูนำทาง (Navbar) - ปรับตาม staff.html */
+        nav {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.9rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        nav a.active {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        /* ส่วนเนื้อหาหลัก (Main Body ของ student.html) */
+        main {
+            flex: 1;
+            padding: 2.5rem 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* เลย์เอาต์การ์ดข้อมูล 3 ช่อง */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* สไตล์การ์ดข้อมูลนักศึกษา */
+        .info-card {
+            background-color: #ffffff;
+            border: 1.5px solid #d1fae5;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        /* กรอบรูปภาพด้านบน */
+        .card-image {
+            width: 100%;
+            height: 270px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #e2e8f0;
+            margin-bottom: 12px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* กล่องรายละเอียดด้านล่าง */
+        .card-details {
+            background-color: #f0fdf4;
+            border: 1px solid #dcfce7;
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-title {
+            color: #15803d;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+        }
+
+        .person-name {
+            color: #475569;
+            font-size: 0.92rem;
+            margin: 0 0 4px 0;
+        }
+
+        .person-phone {
+            color: #1e293b;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+
+        .email-label {
+            color: #15803d;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: underline;
+            margin: 0 0 2px 0;
+            display: inline-block;
+        }
+
+        .person-email {
+            color: #475569;
+            font-size: 0.88rem;
+            margin: 0;
+            word-break: break-all;
+        }
+
+        /* ส่วนท้าย (Footer) - ปรับตาม staff.html */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>ระบบข้อมูลสถานศึกษา</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">หน้าแรก</a></li>
+                <li><a href="executives.html">ข้อมูลผู้บริหาร</a></li>
+                <li><a href="staff.html">ข้อมูลบุคลากร</a></li>
+                <li><a href="student.html" class="active">ข้อมูลนักเรียน นักศึกษา</a></li>
+                <li><a href="courses.html">ข้อมูลสาขาวิชาที่เปิดสอน</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="info-grid">
+            
+            <!-- การ์ดที่ 1: ชื่อนักศึกษา -->
+            <div class="info-card">
+                <div class="card-image">
+                    <img src="asset/img/67219010039.jpg" alt="นักศึกษา">
+                </div>
+                <div class="card-details">
+                    <div class="card-title">ชื่อนักศึกษา</div>
+                    <div class="person-name">นายต้นหมาก เลาเกาะ</div>
+                    <div class="person-phone">โทร : 0627849585</div>
+                    <span class="email-label">Email</span>
+                    <div class="person-email">tannak4568@gmail.com</div>
+                </div>
+            </div>
+
+            <!-- การ์ดที่ 2: ชื่ออาจารย์ที่ปรึกษา -->
+            <div class="info-card">
+                <div class="card-image">
+                    <img src="asset/img/10409.jpg" alt="อาจารย์ที่ปรึกษา">
+                </div>
+                <div class="card-details">
+                    <div class="card-title">ชื่ออาจารย์ที่ปรึกษา</div>
+                    <div class="person-name">อ. สวิตตา ประทุม</div>
+                    <div class="person-phone">โทร : 0869155565</div>
+                    <span class="email-label">Email</span>
+                    <div class="person-email">aj_pee25@hotmail.com</div>
+                </div>
+            </div>
+
+            <!-- การ์ดที่ 3: ชื่ออาจารย์หัวหน้าแผนก -->
+            <div class="info-card">
+                <div class="card-image">
+                    <img src="asset/img/10402.jpg" alt="อาจารย์หัวหน้าแผนก">
+                </div>
+                <div class="card-details">
+                    <div class="card-title">ชื่ออาจารย์หัวหน้าแผนก</div>
+                    <div class="person-name">อ. มยุรีย์ พงษ์บุพศิริกุล</div>
+                    <div class="person-phone">โทร : 0824468994</div>
+                    <span class="email-label">Email</span>
+                    <div class="person-email">mhanoi1@hotmail.com</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Lannapoly. All rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

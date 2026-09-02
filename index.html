@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lannapoly - ระบบข้อมูลสถานศึกษา</title>
+    <link rel="icon" type="image/png" href="asset/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* ส่วนหัว (Header) */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            padding: 2rem 1rem 1rem 1rem;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            margin: 6px 0 0 0;
+            color: #93c5fd;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* แถบเมนูนำทาง (Navbar) */
+        nav {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.9rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        nav a.active {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        /* ส่วนเนื้อหาหลัก (Main) */
+        main {
+            flex: 1;
+            padding: 2.5rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.3);
+        }
+
+        .hero h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            max-width: 650px;
+            color: #dbeafe;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Quick Access Menu Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem 1.2rem;
+            text-align: center;
+            text-decoration: none;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+            border-color: #93c5fd;
+        }
+
+        .menu-icon {
+            font-size: 2rem;
+            margin-bottom: 14px;
+            background: #eff6ff;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #2563eb;
+        }
+
+        .menu-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .menu-card p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        /* Stat Counter Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            background: #ffffff;
+            padding: 1.8rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-item h4 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            margin: 4px 0 0 0;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* ส่วนท้าย (Footer) */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>ระบบข้อมูลสถานศึกษา</h1>
+            <p>วิทยาลัยเทคโนโลยีพายัพและบริหารธุรกิจ (Lannapoly)</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">หน้าแรก</a></li>
+                <li><a href="executives.html">ข้อมูลผู้บริหาร</a></li>
+                <li><a href="staff.html">ข้อมูลบุคลากร</a></li>
+                <li><a href="student.html">ข้อมูลนักเรียน นักศึกษา</a></li>
+                <li><a href="courses.html">ข้อมูลสาขาวิชาที่เปิดสอน</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>ยินดีต้อนรับสู่ระบบข้อมูลสถานศึกษา</h2>
+            <p>ศูนย์รวมข้อมูลการบริหารงาน บุคลากร นักเรียน นักศึกษา และหลักสูตรวิชาที่เปิดสอน เพื่อการเข้าถึงข้อมูลที่สะดวก รวดเร็ว และเป็นระบบ</p>
+        </section>
+
+        <section class="grid-container">
+            <a href="executives.html" class="menu-card">
+                <div class="menu-icon">👔</div>
+                <h3>ข้อมูลผู้บริหาร</h3>
+                <p>คณะผู้บริหารและคณะผู้ทรงคุณวุฒิ</p>
+            </a>
+
+            <a href="staff.html" class="menu-card">
+                <div class="menu-icon">👨‍🏫</div>
+                <h3>ข้อมูลบุคลากร</h3>
+                <p>รายชื่อคณาจารย์และเจ้าหน้าที่</p>
+            </a>
+
+            <a href="student.html" class="menu-card">
+                <div class="menu-icon">🎓</div>
+                <h3>ข้อมูลนักเรียน นักศึกษา</h3>
+                <p>สถิติและข้อมูลผู้เรียนทุกชั้นปี</p>
+            </a>
+
+            <a href="courses.html" class="menu-card">
+                <div class="menu-icon">📚</div>
+                <h3>สาขาวิชาที่เปิดสอน</h3>
+                <p>หลักสูตร ปวช. และ ปวส.</p>
+            </a>
+        </section>
+
+        <section class="stats-section">
+            <div class="stat-item">
+                <h4>3,500+</h4>
+                <p>นักเรียน-นักศึกษา</p>
+            </div>
+            <div class="stat-item">
+                <h4>150+</h4>
+                <p>คณาจารย์และบุคลากร</p>
+            </div>
+            <div class="stat-item">
+                <h4>11</h4>
+                <p>สาขาวิชาที่เปิดสอน</p>
+            </div>
+            <div class="stat-item">
+                <h4>100%</h4>
+                <p>มุ่งมั่นพัฒนาวิชาชีพ</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Lannapoly. All rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
